@@ -128,7 +128,7 @@ class ZMQPoller
 			}
 			revents = Lib.nekoToHaxe(r._revents).copy();
 			return r._ret;
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
 			return -1;
 		} catch (e:Dynamic) {

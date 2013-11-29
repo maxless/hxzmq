@@ -22,7 +22,6 @@ package org.zeromq;
 import haxe.io.Bytes;
 import haxe.io.BytesData;
 import neko.Lib;
-import neko.Sys;
 
 import org.zeromq.ZMQ;
 #if php
@@ -70,7 +69,7 @@ class ZMQSocket
 		try {
 			_socketHandle = _hx_zmq_construct_socket(context.contextHandle, ZMQ.socketTypeNo(type));
 			
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
 		} 
 		this.type = type;
@@ -89,7 +88,7 @@ class ZMQSocket
 		if (_socketHandle != null && !closed) {
 			try {
 				_hx_zmq_close(_socketHandle);
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 			} 
 			
@@ -122,7 +121,7 @@ class ZMQSocket
 #elseif php
             untyped __php__('$this->_socketHandle->bind($addr)');
 #end            
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
         }
 #if php            
@@ -152,7 +151,7 @@ class ZMQSocket
 #elseif php
             untyped __php__('$this->_socketHandle->connect($addr)');
 #end            
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
 		} 
 #if php            
@@ -196,7 +195,7 @@ class ZMQSocket
 			try {	
 #if (neko || cpp)                
 				_hx_zmq_setintsockopt(_socketHandle, _opt, optval);
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 			}
 #elseif php
@@ -225,7 +224,7 @@ class ZMQSocket
 			try {	
 #if (neko || cpp)                
 				_hx_zmq_setint64sockopt(_socketHandle, _opt, _hi, _lo);
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 			}
 #elseif php
@@ -248,7 +247,7 @@ class ZMQSocket
 			try {	
 #if (neko || cpp)                
 				_hx_zmq_setbytessockopt(_socketHandle, _opt, optval.getData() );
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 			}
 #elseif php
@@ -287,7 +286,7 @@ class ZMQSocket
 			try {	
 #if (neko || cpp)        
 				_optval = Lib.nekoToHaxe(_hx_zmq_getintsockopt(_socketHandle, _opt));
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 				return null;
 			}
@@ -319,7 +318,7 @@ class ZMQSocket
 #elseif (neko || cpp)                
 			try {	
 				_optval = Lib.nekoToHaxe(_hx_zmq_getint64sockopt(_socketHandle, _opt));
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 				return null;
 			}
@@ -340,7 +339,7 @@ class ZMQSocket
 			try {	
 #if (neko || cpp)                
 				_optval = _hx_zmq_getbytessockopt(_socketHandle, _opt);
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 				return null;
 			}
@@ -381,7 +380,7 @@ class ZMQSocket
 
             untyped __php__('$this->_socketHandle->send($data->toString(), org_zeromq_ZMQ::sendReceiveFlagNo($flags))');
 #end            
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
 		} 
 #if php            
@@ -424,7 +423,7 @@ class ZMQSocket
             } else
                 return null;
 #end                
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
 		} 
 #if php            

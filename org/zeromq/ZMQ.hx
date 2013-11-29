@@ -19,7 +19,6 @@
 
 package org.zeromq;
 
-import haxe.Int32;
 import haxe.io.Bytes;
 import org.zeromq.ZMQContext;
 import neko.Lib;

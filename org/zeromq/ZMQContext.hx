@@ -47,7 +47,7 @@ class ZMQContext  {
 		// Initialize the zmq context
 		try {
 			contextHandle = _hx_zmq_construct(ioThreads);
-		} catch (e:Int) {
+		} catch (e:Dynamic) {
 			throw new ZMQException(ZMQ.errNoToErrorType(e));
 		} catch (e:Dynamic) {
 			trace(e);
@@ -66,7 +66,7 @@ class ZMQContext  {
 		if (!closed) {
 			try {
 				_hx_zmq_term(contextHandle);
-			} catch (e:Int) {
+			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
 			}
 			
