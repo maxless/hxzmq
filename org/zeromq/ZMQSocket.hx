@@ -272,6 +272,7 @@ class ZMQSocket
 	public function getsockopt(option:SocketOptionsType):Dynamic 
 	{
 		var _optval:Dynamic = null;
+        var __str = null;
         var _opt = ZMQ.socketOptionTypeNo(option);
 		
 		if (_socketHandle == null || closed) {
@@ -337,7 +338,14 @@ class ZMQSocket
 		{
 		
 			try {	
-#if (neko || cpp)                
+#if neko
+				__str = _hx_zmq_getbytessockopt(_socketHandle, _opt);
+			} catch (e:Dynamic) {
+				throw new ZMQException(ZMQ.errNoToErrorType(e));
+				return null;
+			}
+			return Bytes.ofString(__str);
+#elseif cpp
 				_optval = _hx_zmq_getbytessockopt(_socketHandle, _opt);
 			} catch (e:Dynamic) {
 				throw new ZMQException(ZMQ.errNoToErrorType(e));
@@ -407,7 +415,12 @@ class ZMQSocket
 		var bytes:BytesData = null;
 		
 		try {
-#if (neko || cpp)            
+#if neko
+            var __str = _hx_zmq_rcv(_socketHandle, ZMQ.sendReceiveFlagNo(flags));
+            if (__str == null)
+              return null;
+            return Bytes.ofString(new String(__str));
+#elseif cpp
 			bytes = _hx_zmq_rcv(_socketHandle, ZMQ.sendReceiveFlagNo(flags));
             return {
                 if (bytes == null) {

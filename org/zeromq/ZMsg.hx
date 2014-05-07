@@ -20,8 +20,8 @@
 package org.zeromq;
 
 import haxe.io.Bytes;
-import neko.io.FileInput;
-import neko.io.FileOutput;
+import sys.io.FileInput;
+import sys.io.FileOutput;
 import org.zeromq.ZMQ;
 import org.zeromq.ZFrame;
 
@@ -403,11 +403,11 @@ class ZMsg
         }
         try {
             // Write number of frames
-            file.writeInt31(msg.size());
+            file.writeInt32(msg.size());
             if (msg.size() > 0) {
                 for (f in msg.frames) {
                     // Write byte size of frame
-                    file.writeInt31(f.size());
+                    file.writeInt32(f.size());
                     // Write frame byte data
                     file.prepare(f.size());
                     file.writeBytes(f.data, 0, f.size());
@@ -439,11 +439,11 @@ class ZMsg
                 msg;
         }
 
-        var msgSize = file.readInt31();
+        var msgSize = file.readInt32();
         if (msgSize > 0) {
             var msg_nbr = 0;
             while (++msg_nbr <= msgSize) {
-                var frameSize = file.readInt31();
+                var frameSize = file.readInt32();
                 var f:ZFrame = new ZFrame(file.read(frameSize));
                 rcvMsg.add(f);
                 
